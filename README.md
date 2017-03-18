@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # calendar-plugin
 
 > A Vue.js project
@@ -19,3 +20,7 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+## 一个基于Vue开发的日历组件
+### 学习Vue中，学完再来填坑
+>>>>>>> 99075d9a137e1f14df597f782642303136e13687
