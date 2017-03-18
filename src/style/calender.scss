@@ -1,0 +1,22 @@
+$blue: #9ecaed;
+.calendar-input-container {
+  display: inline-block;
+  position: relative;
+  padding: 10px;
+    input {
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      cursor: pointer;
+      outline: none;
+      transition: all .6s;
+    }
+    #calendar {
+      position: absolute;
+    }
+}
+.blue-theme {
+  .focus {
+    border-color: $blue;
+    box-shadow: 0 0 5px $blue;
+  }
+}
