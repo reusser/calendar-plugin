@@ -2,22 +2,27 @@
   <div class="calendar-input-container" v-show="show" 
   :class="[isRed ? 'red-theme' : 'blue-theme']" 
   :style="containerStyle">
+
     <label for="calendar-input">
+
       <input ref="input" id="calendar-input" type="text" readonly="readonly" 
       :style="inputStyle"
       :class="{focus: isfocus}"
       @click="focus"
       v-model="selectValue">
+
     </label>
+
     <transition name="fade">
+
       <div id="calendar" v-show="changeShowCalendar"
       :style="calendarStyle">
         <div id="calendar-header">
-          <span class="arrow">&lt;</span>
+          <span class="arrow" @click="subMonth">&lt;</span>
           <span id="date-box">
             {{selectYear}}年{{selectMonth}}月
           </span>
-          <span class="arrow">&gt;</span>
+          <span class="arrow" @click="addMonth">&gt;</span>
         </div>
         <div class="week">
           <span v-for="(item, index) in week" :class="{weekend: index === 0 || index === 6}">
@@ -29,11 +34,14 @@
           :class="{ 
             weekend: index % 7 === 0 || index % 7 === 6, 
             unselect: index < firstDayInWeek || index >= firstDayInWeek + dayCount,
-            select: index === firstDayInWeek + selectDay - 1}">
+            select: index === firstDayInWeek + selectDay - 1
+          }"
+          @click="selectDay = index - firstDayInWeek + 1">
             {{item}}
           </span>
         </div>
       </div>
+
     </transition>
   </div>
 </template>
@@ -54,12 +62,12 @@ export default {
       type: Object,
       default() {
         return {
-          minYear: '1900',
-          minMonth: '01',
-          minDay: '01',
-          maxYear: '2020',
-          maxMonth: '12',
-          maxDay: '31'
+          minYear: 1900,
+          minMonth: 1,
+          minDay: 1,
+          maxYear: 2020,
+          maxMonth: 12,
+          maxDay: 31
         }
       }
     },
@@ -104,6 +112,34 @@ export default {
     focus() {
       this.isfocus = !this.isfocus;
       this.changeShowCalendar = !this.changeShowCalendar;
+    },
+    subMonth() {
+      if (this.selectMonth === 1) {
+        this.selectMonth = 12;
+        this.selectYear -= 1;
+      } else {
+        this.selectMonth -= 1
+      }
+      if (this.selectYear < this.limit.minYear) this.selectYear = this.limit.minYear;
+      if (this.selectYear === this.limit.minYear) {
+        if (this.selectMonth <= this.limit.minMonth) {
+          this.selectMonth = this.limit.minMonth;
+        }
+      }
+    },
+    addMonth() {
+      if (this.selectMonth === 12) {
+        this.selectMonth = 1;
+        this.selectYear += 1;
+      } else {
+        this.selectMonth += 1
+      }
+      if (this.selectYear > this.limit.maxYear) this.selectYear = this.limit.maxYear;
+      if (this.selectYear === this.limit.maxYear) {
+        if (this.selectMonth >= this.limit.maxMonth) {
+          this.selectMonth = this.limit.maxMonth;
+        }
+      }
     }
   },
   computed: {
