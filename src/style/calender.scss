@@ -1,22 +1,100 @@
 $blue: #9ecaed;
+$deepBlue: #2f80c3;
 .calendar-input-container {
   display: inline-block;
   position: relative;
   padding: 10px;
+  text-align: center;
+  font-family: SimHei;
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
+  }
     input {
+      box-sizing: border-box;
+      padding: {
+        left: 5px;
+        right: 5px;
+      }
       border: 1px solid #ccc;
-      border-radius: 2px;
+      border-radius: 4%;
       cursor: pointer;
       outline: none;
       transition: all .6s;
     }
     #calendar {
       position: absolute;
+      box-sizing: border-box;
+      padding: 5px;
+      border: 2px solid #eee;
+      border-radius: 2%;
+      div, span {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      div {
+        height: 12.5%;
+        width: 100%;
+      }
+      span {        
+        height: 100%;
+        width: 14.2857%;
+      }
+
+      #calendar-header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        span {
+          display: flex;
+          align-items: center;
+        }
+        #date-box {
+          flex-grow: 2;
+        }
+      }
+      .week {
+        font-size: 16px;
+        span {
+          height: 100%;
+        }
+      }
+      .days {
+        font-size: 14px;
+      }
     }
 }
 .blue-theme {
   .focus {
     border-color: $blue;
     box-shadow: 0 0 5px $blue;
+  }
+  .arrow {
+    cursor: pointer;
+    color: $deepBlue;
+    transition: color .5s;
+    &:hover {
+      color: $blue;
+    }
+  }
+  .weekend {
+    color: $deepBlue;
+  }
+  .unselect {
+    color: #ccc;
+  }
+  .select {
+    border-radius: 2px;
+    background-color: $deepBlue;
+    color: #fff;
   }
 }
