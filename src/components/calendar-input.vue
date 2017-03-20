@@ -20,7 +20,7 @@
         <div id="calendar-header">
           <span class="arrow" @click="subMonth">&lt;</span>
           <span id="date-box">
-            {{selectYear}}年{{selectMonth}}月
+            {{trueSelectYear}}年{{trueSelectMonth}}月
           </span>
           <span class="arrow" @click="addMonth">&gt;</span>
         </div>
@@ -33,17 +33,16 @@
           <span v-for="(item, index) in renderData" 
           :class="{ 
             weekend: index % 7 === 0 || index % 7 === 6, 
-            unselect: index < firstDayInWeek || index >= firstDayInWeek + dayCount,
-            select: index === firstDayInWeek + selectDay - 1
+            unselect: unselectArr.includes(index),
+            select: index === firstDayInWeek + trueSelectDay - 1
           }"
-          @click="selectDay = index - firstDayInWeek + 1">
+          @click="changeSelectDay(index)">
             {{item}}
           </span>
         </div>
       </div>
-
     </transition>
-  </div>
+  </div>      
 </template>
 
 <script>
@@ -65,9 +64,9 @@ export default {
           minYear: 1900,
           minMonth: 1,
           minDay: 1,
-          maxYear: 2020,
-          maxMonth: 12,
-          maxDay: 31
+          maxYear: 2017,
+          maxMonth: 3,
+          maxDay: 20
         }
       }
     },
@@ -140,17 +139,36 @@ export default {
           this.selectMonth = this.limit.maxMonth;
         }
       }
+    },
+    changeSelectDay(index) {
+      if (this.unselectArr.includes(index)) return false;
+      this.selectDay = index - this.firstDayInWeek + 1;
     }
   },
   computed: {
+    trueSelectYear: function () {
+      if (this.selectYear < this.limit.minYear) return this.limit.minYear;
+      if (this.selectYear > this.limit.maxYear) return this.limit.maxYear;
+      return this.selectYear;
+    },
+    trueSelectMonth: function () {
+      if (this.selectYear === this.limit.minYear && this.selectMonth < this.limit.minMonth) return this.limit.minMonth;
+      if (this.selectYear === this.limit.maxYear && this.selectMonth > this.limit.maxMonth) return this.limit.maxMonth;
+      return this.selectMonth;
+    },
+    trueSelectDay: function () {
+      if (this.selectYear === this.limit.minYear && this.selectMonth === this.limit.minMonth && this.selectDay < this.limit.minDay) return this.limit.minDay;
+      if (this.selectYear === this.limit.maxYear && this.selectMonth === this.limit.maxMonth && this.selectDay > this.limit.maxDay) return this.limit.maxDay;
+      return this.selectDay;
+    },
     selectValue: function () {
-      return `${this.selectYear}-${this.selectMonth}-${this.selectDay}`;
+      return `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`;
     },
     firstDayInWeek: function () {
-      return new Date(this.selectYear, this.selectMonth - 1, 1).getDay();
+      return new Date(this.trueSelectYear, this.trueSelectMonth - 1, 1).getDay();
     },
     dayCount: function () {
-      return new Date(this.selectYear, this.selectMonth, 0).getDate();
+      return new Date(this.trueSelectYear, this.trueSelectMonth, 0).getDate();
     },
     lastMonthDay: function () {
       let lastNum  = this.firstDayInWeek;
@@ -158,7 +176,7 @@ export default {
       if (lastNum === 0) return lastDays;
 
       let i = 0;
-      let lastDayNum = new Date(this.selectYear, this.selectMonth - 1, 0).getDate();
+      let lastDayNum = new Date(this.trueSelectYear, this.trueSelectMonth - 1, 0).getDate();
       for (; i < lastNum; i++) {
         lastDays.unshift(lastDayNum);
         lastDayNum--;
@@ -183,6 +201,35 @@ export default {
         nowDays.push(i);
       }
       return [...this.lastMonthDay, ...nowDays, ...this.nextMonthDay];
+    },
+    unselectArr: function () {
+
+      let index = 0;
+      let arr   = [];
+
+      if (this.trueSelectYear === this.limit.minYear && this.trueSelectMonth === this.limit.minMonth) {        
+        for (; index < this.firstDayInWeek + this.limit.minDay - 1; index++) {
+          arr.push(index);
+        }
+      } else {
+        for (; index < this.firstDayInWeek; index++) {
+          arr.push(index)
+        }
+      }
+
+      if (this.trueSelectYear === this.limit.maxYear && this.trueSelectMonth === this.limit.maxMonth) {
+        index = this.firstDayInWeek + this.limit.maxDay;
+        for (; index < 42; index++) {
+          arr.push(index);
+        }
+      } else {
+        index = this.firstDayInWeek + this.dayCount;
+        for (; index < 42; index++) {
+          arr.push(index);
+        }
+      }
+
+      return arr;
     }
   }
 }

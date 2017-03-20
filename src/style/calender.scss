@@ -1,5 +1,9 @@
 $blue: #9ecaed;
 $deepBlue: #2f80c3;
+$white: #fff;
+$gray: #888;
+$red: #f00;
+$deepRed: #cb1b01;
 .calendar-input-container {
   display: inline-block;
   position: relative;
@@ -29,7 +33,6 @@ $deepBlue: #2f80c3;
     #calendar {
       position: absolute;
       box-sizing: border-box;
-      padding: 5px;
       border: 2px solid #eee;
       border-radius: 2%;
       div, span {
@@ -63,14 +66,20 @@ $deepBlue: #2f80c3;
         }
       }
       .week {
+        box-sizing: border-box;
+        padding: 5px;
         font-size: 16px;
         span {
           height: 100%;
         }
       }
       .days {
+        box-sizing: border-box;
+        height: 75%;
+        padding: 5px;
         font-size: 14px;
         span {
+          height: 16.666667%;
           cursor: pointer;
           transition: all .5s;
         }
@@ -114,6 +123,44 @@ $deepBlue: #2f80c3;
     .select:hover {
       border-radius: 2px;
       background-color: $deepBlue;
+      color: #fff;
+    }
+  }
+}
+.red-theme {
+  #calendar-header {
+    color: $white;
+    background-color: $deepRed;
+  }
+  .focus {
+    border-color: #ccc;
+    box-shadow: 0 0 5px #ccc;
+  }
+  .arrow {
+    cursor: pointer;
+  }
+    .weekend {
+    color: $deepRed;
+  }
+  .days {
+    color: $gray;
+    span {
+      &:hover {
+        border-radius: 2px;
+        background-color: $red;
+        color: #fff;       
+      }
+    }
+    .unselect,
+    .unselect:hover {
+      border-radius: 0;
+      background-color: #fff;
+      color: #ccc;
+    }
+    .select,
+    .select:hover {
+      border-radius: 2px;
+      background-color: $deepRed;
       color: #fff;
     }
   }
