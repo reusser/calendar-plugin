@@ -18,8 +18,10 @@ $deepRed: #cb1b01;
   .fade-leave-active {
     opacity: 0;
   }
-    input {
+    .calendar-input {
       box-sizing: border-box;
+      width: 200px;
+      height: 30px;
       padding: {
         left: 5px;
         right: 5px;
@@ -32,6 +34,8 @@ $deepRed: #cb1b01;
     }
     #calendar {
       position: absolute;
+      width: 200px;
+      height: 240px;
       box-sizing: border-box;
       border: 2px solid #eee;
       border-radius: 2%;

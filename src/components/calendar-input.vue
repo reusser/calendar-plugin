@@ -5,18 +5,21 @@
 
     <label for="calendar-input">
 
-      <input ref="input" id="calendar-input" type="text" readonly="readonly" 
-      :style="inputStyle"
+      <input ref="mainInput" class="calendar-input" type="text" readonly="readonly" 
       :class="{focus: isfocus}"
       @click="focus"
-      v-model="selectValue">
-
+      v-model="selectValue.firstValue">
+      
+      <input type="text" class="calendar-input" readonly="readonly"
+      v-if="isRange"
+      :class="{focus: isfocus}"
+      @click="focus"
+      v-model="selectValue.secondValue">
     </label>
 
     <transition name="fade">
 
-      <div id="calendar" v-show="changeShowCalendar"
-      :style="calendarStyle">
+      <div id="calendar" v-show="changeShowCalendar">
         <div id="calendar-header">
           <span class="arrow" @click="subMonth">&lt;</span>
           <span id="date-box">
@@ -53,6 +56,10 @@ export default {
       type: Boolean,
       default: true
     },
+    isRange: { //是否使用范围选择模式
+      type : Boolean,
+      default: true
+    },
     isRed: {  //红蓝两种主题可选
       type: Boolean,
       default: false
@@ -64,7 +71,7 @@ export default {
           minYear: 1900,
           minMonth: 1,
           minDay: 1,
-          maxYear: 2017,
+          maxYear: 2018,
           maxMonth: 3,
           maxDay: 20
         }
@@ -76,24 +83,6 @@ export default {
     },
     containerStyle: { //组件容器样式
       type: Object
-    },
-    inputStyle: {   //输入框样式
-      type: Object,
-      default() {
-        return {
-          width: '200px',
-          height: '30px'
-        }
-      }
-    },
-    calendarStyle: {  //日历样式
-      type: Object,
-      default() {
-        return {
-          width: this.inputStyle.width,
-          height: `${parseInt(this.inputStyle.height) * 8}px`
-        }
-      }
     }
   },
   data () {
@@ -159,10 +148,16 @@ export default {
     trueSelectDay: function () {
       if (this.selectYear === this.limit.minYear && this.selectMonth === this.limit.minMonth && this.selectDay < this.limit.minDay) return this.limit.minDay;
       if (this.selectYear === this.limit.maxYear && this.selectMonth === this.limit.maxMonth && this.selectDay > this.limit.maxDay) return this.limit.maxDay;
+      if (this.selectDay > this.dayCount) return this.dayCount;
       return this.selectDay;
     },
     selectValue: function () {
-      return `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`;
+      return !this.isRange
+      ? {firstValue: `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`}
+      : {
+        firstValue: `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`,
+        secondValue: ``
+      }
     },
     firstDayInWeek: function () {
       return new Date(this.trueSelectYear, this.trueSelectMonth - 1, 1).getDay();
