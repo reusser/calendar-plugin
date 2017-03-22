@@ -4,6 +4,80 @@
 
 > A simple calender-plugin by Vue.js
 
+## 使用方法
+
+### 父组件可传props
+
+```javascript
+    props: {
+        show: {   //是否显示组件
+          type: Boolean,
+          default: true
+        },
+        isRed: {  //红蓝两种主题可选
+          type: Boolean,
+          default: false
+        },
+        limit: {  //日期可选范围
+          type: Object,
+          default() {
+            return {
+              minYear: 1900,
+              minMonth: 1,
+              minDay: 1,
+              maxYear: 2030,
+              maxMonth: 3,
+              maxDay: 20
+            }
+          }
+        },
+        showCalendar: {  //是否显示日历
+          type: Boolean,
+          default: true
+        },
+        containerStyle: { //组件容器样式
+          type: Object
+        }
+      }
+```
+
+### 子组件向父组件传值方法
+
+```javascript
+  watch: {
+    selectValue: function (newVal) {
+      this.$emit('getValue', newVal);
+    }
+  },
+  mounted() {
+    this.$emit('getValue', this.selectValue);
+  } 
+```
+
+### 在父组件中使用calendar-input
+引入calendar-input
+
+```javascript
+  import calendarInput from '@/components/calendar-input';
+  export default {
+    components: {
+      calendarInput
+    }
+  }
+```
+
+使用并传递初始值，绑定子组件向父组件通信事件
+
+```html
+  <calendar-input :limit="limit" @getValue="getValue"></calendar-input>
+```
+
+使用红色主题
+
+```html
+  <calendar-input :isRed="true" @getValue="getValue"></calendar-input>
+```
+
 ## Build Setup
 
 ``` bash
