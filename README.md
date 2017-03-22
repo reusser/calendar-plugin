@@ -6,6 +6,38 @@
 
 ## 使用方法
 
+```javascript
+npm install calendar-plugin
+```
+
+### 在父组件中使用calendar-input
+引入calendar-input, 如果父组件在vue-cli生成的components中，那么引用方法为：
+
+```javascript
+  import calendarInput from '@/components/calendar-input';
+  export default {
+    components: {
+      calendarInput
+    }
+  }
+```
+
+如果父组件不在components中，就根据你的项目使用相对路径引入
+
+使用并传递初始值，绑定子组件向父组件通信事件
+
+```html
+  <calendar-input :limit="limit" @getValue="getValue"></calendar-input>
+```
+
+使用红色主题
+
+```html
+  <calendar-input :isRed="true" @getValue="getValue"></calendar-input>
+```
+
+
+
 ### 父组件可传props
 
 ```javascript
@@ -52,30 +84,6 @@
   mounted() {
     this.$emit('getValue', this.selectValue);
   } 
-```
-
-### 在父组件中使用calendar-input
-引入calendar-input
-
-```javascript
-  import calendarInput from '@/components/calendar-input';
-  export default {
-    components: {
-      calendarInput
-    }
-  }
-```
-
-使用并传递初始值，绑定子组件向父组件通信事件
-
-```html
-  <calendar-input :limit="limit" @getValue="getValue"></calendar-input>
-```
-
-使用红色主题
-
-```html
-  <calendar-input :isRed="true" @getValue="getValue"></calendar-input>
 ```
 
 ## Build Setup
