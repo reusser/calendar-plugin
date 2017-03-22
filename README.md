@@ -14,7 +14,7 @@ npm install calendar-plugin
 引入calendar-input, 如果父组件在vue-cli生成的components中，那么引用方法为：
 
 ```javascript
-  import calendarInput from '@/components/calendar-input';
+  import calendarInput from '../../node_modules/calendar-plugin/calendar-input.vue';
   export default {
     components: {
       calendarInput
