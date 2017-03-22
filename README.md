@@ -1,3 +1,5 @@
+[预览](https://reusjs.github.io/calendar-plugin/)
+
 # calendar-plugin
 
 > A simple calender-plugin by Vue.js
