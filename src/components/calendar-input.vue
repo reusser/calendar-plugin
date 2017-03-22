@@ -8,13 +8,7 @@
       <input ref="mainInput" class="calendar-input" type="text" readonly="readonly" 
       :class="{focus: isfocus}"
       @click="focus"
-      v-model="selectValue.firstValue">
-      
-      <input type="text" class="calendar-input" readonly="readonly"
-      v-if="isRange"
-      :class="{focus: isfocus}"
-      @click="focus"
-      v-model="selectValue.secondValue">
+      v-model="selectValue">
     </label>
 
     <transition name="fade">
@@ -56,10 +50,6 @@ export default {
       type: Boolean,
       default: true
     },
-    isRange: { //是否使用范围选择模式
-      type : Boolean,
-      default: true
-    },
     isRed: {  //红蓝两种主题可选
       type: Boolean,
       default: false
@@ -71,7 +61,7 @@ export default {
           minYear: 1900,
           minMonth: 1,
           minDay: 1,
-          maxYear: 2018,
+          maxYear: 2030,
           maxMonth: 3,
           maxDay: 20
         }
@@ -79,7 +69,7 @@ export default {
     },
     showCalendar: {  //是否显示日历
       type: Boolean,
-      default: false
+      default: true
     },
     containerStyle: { //组件容器样式
       type: Object
@@ -87,7 +77,7 @@ export default {
   },
   data () {
     return {
-      isfocus: false,
+      isfocus: true,
       changeShowCalendar: this.showCalendar,
       week: ["日", "一", "二", "三", "四", "五", "六"],
       date: new Date(),
@@ -152,12 +142,7 @@ export default {
       return this.selectDay;
     },
     selectValue: function () {
-      return !this.isRange
-      ? {firstValue: `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`}
-      : {
-        firstValue: `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`,
-        secondValue: ``
-      }
+      return `${this.trueSelectYear}-${this.trueSelectMonth}-${this.trueSelectDay}`;
     },
     firstDayInWeek: function () {
       return new Date(this.trueSelectYear, this.trueSelectMonth - 1, 1).getDay();
@@ -226,7 +211,15 @@ export default {
 
       return arr;
     }
-  }
+  },
+  watch: {
+    selectValue: function (newVal) {
+      this.$emit('getValue', newVal);
+    }
+  },
+  mounted() {
+    this.$emit('getValue', this.selectValue);
+  } 
 }
 </script>
 
