@@ -5,7 +5,7 @@
 > A simple calender-plugin by Vue.js
 
 [![build](https://img.shields.io/wercker/ci/wercker/docs.svg)](https://github.com/Reusjs/calendar-plugin)
-[![build](https://img.shields.io/badge/npm-1.0.4-blue.svg)](https://github.com/Reusjs/calendar-plugin)
+[![build](https://img.shields.io/badge/npm-1.0.2-blue.svg)](https://github.com/Reusjs/calendar-plugin)
 [![build](https://img.shields.io/npm/l/express.svg)](https://github.com/Reusjs/calendar-plugin)
 
 ## 使用方法
